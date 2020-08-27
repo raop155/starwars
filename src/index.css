@@ -1,13 +1,72 @@
+html,
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  color: var(--color) !important;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+html {
+  --background: #222;
+  --color: #ddd;
+  --padding-size: 2vw;
+  box-sizing: border-box;
+  height: 100% !important;
+  background: var(--background) !important;
+}
+
+body {
+  color: var(--color);
+  text-align: center;
+}
+
+h1 {
+  color: #ffff57 !important;
+  letter-spacing: 2px;
+}
+
+h2 {
+  color: white !important;
+  letter-spacing: 2px;
+}
+
+h3 {
+  color: #ffff57 !important;
+  letter-spacing: 2px;
+}
+
+.container--padding {
+  padding: var(--padding-size);
+}
+
+.container--padding-x {
+  padding-left: var(--padding-size);
+  padding-right: var(--padding-size);
+}
+
+.container--padding-y {
+  padding-top: var(--padding-size);
+  padding-bottom: var(--padding-size);
+}
+
+.container--padding-t {
+  padding-top: var(--padding-size);
+}
+
+.container--padding-b {
+  padding-bottom: var(--padding-size);
+}
+
+.content {
+  height: 100%;
+  text-align: left;
+}
+
+ul {
+  /* margin: 0 !important; */
+  list-style: none !important;
+}
+
+.box {
+  color: #ddd !important;
+  background: #00000080 !important;
 }
