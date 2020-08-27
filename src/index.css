@@ -8,7 +8,7 @@ body {
 html {
   --background: #222;
   --color: #ddd;
-  --padding-size: 2vw;
+  --padding-size: 20px;
   box-sizing: border-box;
   height: 100% !important;
   background: var(--background) !important;
@@ -62,7 +62,7 @@ h3 {
 }
 
 ul {
-  /* margin: 0 !important; */
+  margin: 0 !important;
   list-style: none !important;
 }
 
