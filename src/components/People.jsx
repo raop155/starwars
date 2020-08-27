@@ -9,7 +9,7 @@ const fetchPeople = async (key, page) => {
 
 const People = () => {
   const [page, setPage] = useState(1);
-  const { data, status, isFetching } = useQuery(['people', page], fetchPeople, {
+  const { data, status } = useQuery(['people', page], fetchPeople, {
     // staleTime: 5000,
     // cacheTime: 5000,
     onSuccess: () => console.log('data fetch with no problemo!'),
