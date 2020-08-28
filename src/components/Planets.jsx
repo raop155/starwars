@@ -1,61 +1,79 @@
-import React, { useState } from 'react';
-import { usePaginatedQuery } from 'react-query';
+import React from 'react';
+import { useInfiniteQuery } from 'react-query';
 import Planet from './Planet';
+import useIntersectionObserver from '../hooks/useIntersectionObserver';
 
-const fetchPlanets = async (key, page) => {
-  const res = await fetch(`https://swapi.dev/api/planets/?page=${page}`);
-  // const res = await fetch('/text.json');
+const fetchPlanets = async (key, page = '1') => {
+  const api_url = `https://swapi.dev/api/planets/?page=${page}`;
+  console.log(api_url);
+  const res = await fetch(api_url);
   return res.json();
 };
 
 const Planets = () => {
-  const [page, setPage] = useState(1);
-  const { resolvedData, latestData, status } = usePaginatedQuery(['planets', page], fetchPlanets, {
-    // staleTime: 5000,
-    // cacheTime: 5000,
-    onSuccess: () => {
-      console.log('data fetch with no problemo!');
-      // window.scrollTo(0, 0);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      // document.querySelector('#buttons').scrollIntoView();
+  const { status, data, isFetchingMore, fetchMore, canFetchMore } = useInfiniteQuery(
+    ['planets'],
+    fetchPlanets,
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: () => console.log('data fetch with no problemo!'),
+      onError: () => console.log('data fetch error!'),
+      getFetchMore: (lastGroup) => {
+        lastGroup.page = lastGroup.next?.split('=')[1];
+        return lastGroup.page;
+      },
     },
-    onError: () => console.log('data fetch error!'),
+  );
+
+  console.log('data', data);
+
+  const loadMoreButtonRef = React.useRef();
+  useIntersectionObserver({
+    target: loadMoreButtonRef,
+    onIntersect: fetchMore,
+    enabled: canFetchMore,
   });
 
   return (
     <>
       <h2 className='subtitle is-3 mt-3'>Planets</h2>
-      {/* {isFetching && <div>Is fetching data...</div>} */}
 
-      {status === 'loading' && <div>Loading data...</div>}
-      {status === 'error' && <div>Error fetching data</div>}
+      {/* {isFetching && <div>Is fetching data... </div>} */}
+
+      {status === 'loading' && (
+        <div className='box'>
+          <h3 className='my-0'>Loading data...</h3>
+        </div>
+      )}
+      {status === 'error' && (
+        <div className='box'>
+          <h3 className='my-0'>Error fetching data</h3>
+        </div>
+      )}
+
       {status === 'success' && (
         <>
-          <ul className='mb-5'>
-            {resolvedData.results.map((planet) => {
-              return <Planet key={planet.name} planet={planet} />;
-            })}
+          <ul className=''>
+            {data?.map((group, i) => (
+              <React.Fragment key={i}>
+                {group.results.map((planet) => (
+                  <Planet key={planet.name} planet={planet} />
+                ))}
+              </React.Fragment>
+            ))}
           </ul>
-
-          <div className='buttons'>
-            <button
-              className='button is-dark is-outlined is-inverted'
-              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              disabled={page === 1}
-            >
-              Previous Page
-            </button>
-            <span className='mr-2 mb-2 is-size-5'>{page}</span>
-            <button
-              className='button is-dark is-outlined is-inverted'
-              onClick={() => setPage((prev) => (!latestData || !latestData.next ? prev : prev + 1))}
-              disabled={!latestData || !latestData.next}
-            >
-              Next Page
-            </button>
-          </div>
         </>
       )}
+
+      <div className='' ref={loadMoreButtonRef}>
+        {isFetchingMore && (
+          <div className='mt-5'>
+            <div className='box'>
+              <h3 className='my-0'>Loading more...</h3>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 };

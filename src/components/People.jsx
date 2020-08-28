@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { usePaginatedQuery } from 'react-query';
 import Person from './Person';
 
-const fetchPeople = async (key, page) => {
+const fetchPeople = async (key, page = '1') => {
   const res = await fetch(`https://swapi.dev/api/people/?page=${page}`);
   return res.json();
 };
@@ -12,7 +12,10 @@ const People = () => {
   const { resolvedData, latestData, status } = usePaginatedQuery(['people', page], fetchPeople, {
     // staleTime: 5000,
     // cacheTime: 5000,
-    onSuccess: () => console.log('data fetch with no problemo!'),
+    onSuccess: () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      console.log('data fetch with no problemo!');
+    },
     onError: () => console.log('data fetch error!'),
   });
 
@@ -20,8 +23,19 @@ const People = () => {
     <>
       <h2 className='subtitle is-3 mt-3'>People</h2>
 
-      {status === 'loading' && <div>Loading data...</div>}
-      {status === 'error' && <div>Error fetching data</div>}
+      {/* {isFetching && <div>Is fetching data... </div>} */}
+
+      {status === 'loading' && (
+        <div className='box'>
+          <h3 className='my-0'>Loading data...</h3>
+        </div>
+      )}
+      {status === 'error' && (
+        <div className='box'>
+          <h3 className='my-0'>Error fetching data</h3>
+        </div>
+      )}
+
       {status === 'success' && (
         <>
           <ul className='mb-5'>
