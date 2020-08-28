@@ -35,5 +35,5 @@ export default function useIntersectionObserver({
     return () => {
       observer.unobserve(el);
     };
-  }, [enabled]);
+  }, [root, target, onIntersect, threshold, rootMargin, enabled]);
 }
