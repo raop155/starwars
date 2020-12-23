@@ -2,7 +2,7 @@
 
 Small Web App with Star Wars Planets & People
 
-[Star Wars Wen App](https://pensive-jennings-f29536.netlify.app//)
+[Star Wars Web App](https://pensive-jennings-f29536.netlify.app//)
 
 ## Getting Started
 
