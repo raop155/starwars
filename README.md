@@ -2,7 +2,7 @@
 
 Small Web App with Star Wars Planets & People
 
-[Ricardo Olarte | Personal Porfolio](https://raop155.com/)
+[Star Wars Wen App](https://pensive-jennings-f29536.netlify.app//)
 
 ## Getting Started
 
@@ -57,3 +57,4 @@ Enjoy :)
 
 * [React.js](https://reactjs.org/)
 * [React Query](https://react-query.tanstack.com/)
+* Pagination & Infinite Scroll
